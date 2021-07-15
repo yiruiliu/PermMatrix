@@ -1,0 +1,22 @@
+Permute_matrix_parallel:=function(B,A)
+	local Bt,Bf,A1;
+	Bt:=TransposedMat(B);
+	Bt:=ShallowCopy(Bt);
+	A1:=ShallowCopy(A);
+	SortParallel(A1,Bt);
+	Bf:=TransposedMat(Bt);
+	return [Bf,A1];
+end;
+
+
+Permute_marginalAndJoin:=function(numofVar,listofedge) #subfunction
+####example listofedge:=[[1],[2],[3],[4],[5],[6],[3,6],[5,6]]; permute column indices of A such that the first 7 indices are [1],..[6],[3,6],[5,6]
+	local A,Len_LOE,i;
+	Len_LOE:=Size(listofedge);
+	A:=[Len_LOE+1..Len_LOE+2^(numofVar)-1];
+
+	for i in [1..Len_LOE] do
+		A[set2int(listofedge[i])]:=i;
+	od;
+	return A;
+end;
